@@ -12,9 +12,9 @@
 
 #include "ft_printf.h"
 
-static void	ft_write_hex(unsigned long long pnt);
+static void	ft_write_hex(unsigned long int pnt);
 
-int	ft_putpnt(unsigned long long pnt)
+int	ft_putpnt(unsigned long int pnt)
 {
 	int	size;
 
@@ -30,7 +30,7 @@ int	ft_putpnt(unsigned long long pnt)
 	return (size);
 }
 
-static void	ft_write_hex(unsigned long long pnt)
+static void	ft_write_hex(unsigned long int pnt)
 {
 	if (pnt < 16)
 		write(1, &"0123456789abcdef"[pnt], 1);
