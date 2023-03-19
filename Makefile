@@ -4,31 +4,37 @@ RM		=	rm -rf
 AR		=	ar rcs
 
 SRCS	=	ft_printf.c ft_printf_utils.c ft_putpnt.c ft_putuint.c ft_puthex.c
-LIBFT	=	libft
-
-vpath %.c src
+LIBFT	=	libft/
 
 NAME	=	libftprintf.a
 
-OBJ_DIR	=	obj
+OBJ_DIR	=	obj/
+SRC_DIR	=	src/
 
 SRCS_OBJS	=	$(SRCS:.c=.o)
+OBJS		=	$(addprefix $(OBJ_DIR), $(SRCS_OBJS))
+
+INCLUDE	=	-I libft/ -I inc/
 
 all: $(NAME)
 
-$(NAME): $(SRCS_OBJS)
-	@make -C libft
-	@cp $(LIBFT)/libft.a .
-	@mv libft.a $(NAME)
-	@$(AR) $(NAME) $(SRCS_OBJS)
+$(NAME): $(OBJS)
+	make -C libft
+	cp $(LIBFT)libft.a .
+	mv libft.a $(NAME)
+	$(AR) $(NAME) $(OBJS)
+
+$(OBJ_DIR)%.o:$(SRC_DIR)%.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $^
 
 clean:
-	@make clean -C libft
-	@$(RM) $(SRCS_OBJS)
+	make clean -C libft
+	$(RM) $(OBJS)
 
 fclean:	clean
-	@$(RM) $(NAME)
-	@$(RM) $(LIBFT)/libft.a
+	$(RM) $(NAME)
+	$(RM) $(LIBFT)/libft.a
 
 re:	fclean $(NAME)
-	@make re -C libft
+	make re -C libft
